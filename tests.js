@@ -64,6 +64,13 @@ describe('Adding new foods', function() {
        .send('name=pear&eat=true')
        .expect(/pear/i, done);
   });
+
+  it('validates food name and eat status', function(done) {
+    request(app)
+      .post('/foods')
+      .send('name=&eat=')
+      .expect(400, done); // Bad request.
+  });
 });
 
 describe('Deleting foods', function() {
@@ -72,7 +79,6 @@ describe('Deleting foods', function() {
   });
 
   after(function() {
-    console.log('after each!');
     client.flushdb();
   });
 

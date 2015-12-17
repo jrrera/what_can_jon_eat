@@ -38,6 +38,9 @@ app.get('/foods', function(req, res) {
 
 app.post('/foods', bodyParser.urlencoded({ extended: false }), function(req, res) {
   var newFood = req.body;
+  if (!newFood.name || !newFood.eat) {
+    res.sendStatus(400);
+  }
   client.hset('foods', newFood.name, newFood.eat);
   res.status(201).json(newFood.name);
 });
