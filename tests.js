@@ -1,6 +1,11 @@
 var request = require('supertest');
 var app = require('./app');
 
+var redis = require('redis');
+var client = redis.createClient();
+client.select('test'.length);
+client.flushdb();
+
 describe('Requests to the root path', function() {
 
   it('Returns a 200 status code', function(done) {
@@ -37,10 +42,11 @@ describe('Listing foods I can eat on /foods', function() {
       .expect('Content-Type', /json/, done)
   });
 
-  it('returns initial foods', function(done) {
+
+  it('returns no foods on initial GET', function(done) {
      request(app)
       .get('/foods')
-      .expect(JSON.stringify(['apples', 'pears', 'jalapenos']), done);
+      .expect(JSON.stringify([]), done);
   });
 });
 
