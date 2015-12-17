@@ -44,3 +44,19 @@ describe('Listing foods I can eat on /foods', function() {
   });
 });
 
+describe('Adding new foods', function() {
+  it('returns a 201 status code', function(done) {
+    request(app)
+      .post('/foods')
+      .send('name=Pear&eat=true')
+      .expect(201, done);
+  });
+
+  it('returns the food name', function(done) {
+     request(app)
+     .post('/foods')
+       .send('name=Pear&eat=true')
+       .expect(/pear/i, done);
+  });
+});
+
