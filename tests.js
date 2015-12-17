@@ -61,7 +61,31 @@ describe('Adding new foods', function() {
   it('returns the food name', function(done) {
      request(app)
      .post('/foods')
-       .send('name=Pear&eat=true')
+       .send('name=pear&eat=true')
+       .expect(/pear/i, done);
+  });
+});
+
+describe('Deleting foods', function() {
+  before(function() {
+    client.hset('foods', 'banana', true);
+  });
+
+  after(function() {
+    console.log('after each!');
+    client.flushdb();
+  });
+
+  it('returns a 204 status code', function(done) {
+    request(app)
+      .delete('/foods/banana')
+      .expect(204, done);
+  });
+
+  it('returns the food name', function(done) {
+     request(app)
+     .post('/foods')
+       .send('name=pear&eat=true')
        .expect(/pear/i, done);
   });
 });

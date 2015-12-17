@@ -42,4 +42,11 @@ app.post('/foods', bodyParser.urlencoded({ extended: false }), function(req, res
   res.status(201).json(newFood.name);
 });
 
+app.delete('/foods/:name', function(req, res) {
+  client.hdel('foods', req.params.name, function(error) {
+    if (error) throw error;
+    res.sendStatus(204);
+  });
+});
+
 module.exports = app;
