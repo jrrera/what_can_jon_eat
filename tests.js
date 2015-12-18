@@ -113,7 +113,7 @@ describe('Food model', function () {
   });
 
   it('returns the full hash of foods', function(done) {
-    foodModel.getAll(function(err, foodsObj){
+    foodModel.getAll().then(function(foodsObj){
       expect(foodsObj).to.eql(
         {'pears': true, 'jalapenos': false}
       );
@@ -123,7 +123,7 @@ describe('Food model', function () {
 
   it('adds a food to the hash', function(done) {
     foodModel.add('chicken', true, function(err, status){
-      foodModel.getAll(function(err, foodsObj){
+      foodModel.getAll().then(function(foodsObj){
         expect(foodsObj).to.eql(
           {'pears': true, 'jalapenos': false, 'chicken': true}
         );

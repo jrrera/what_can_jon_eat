@@ -3,10 +3,10 @@ var redisClient = require('../lib/redis');
 /**
  * Retrieves the entire hash of foods.
  * @param {Function} cb
+ * @return {Promise}
  */
 exports.getAll = function(cb) {
-  redisClient.hgetall('foods', function(err, foods) {
-    if (err) throw err;
+  return redisClient.hgetallAsync('foods').then(function(foods) {
 
     // Coerce string values to boolean.
     for (var food in foods) {
@@ -14,7 +14,7 @@ exports.getAll = function(cb) {
         foods[food] = (foods[food] === "true");
       }
     }
-    cb(null, foods);
+    return foods;
   });
 };
 

@@ -9,8 +9,7 @@ var foodModel = require('../models/food');
 
 router.route('/')
   .get(function(req, res) {
-    foodModel.getAll(function(error, foodObjects) {
-      if (error) throw error;
+    foodModel.getAll().then(function(foodObjects) {
       res.json(foodObjects);
     });
   })
