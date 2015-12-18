@@ -1,5 +1,7 @@
+var expect = require('expect.js');
 var request = require('supertest');
 var app = require('./app');
+var foodModel = require('./models/food');
 
 // Set up Redis
 var redis = require('redis');
@@ -104,8 +106,18 @@ describe('Deleting foods', function() {
 
 
 describe('Foods model', function () {
-  it('returns a list of adds foods', function() {
-    var foods = new Foods();
-    assert.equal(foods.getAll(), {'pears': true, 'jalapenos': false});
+
+  before(function() {
+    client.hset('foods', 'pears', true);
+    client.hset('foods', 'jalapenos', false);
+  });
+
+  it('returns a list of foods', function(done) {
+    foodModel.getAll(function(err, foodsObj){
+      expect(foodsObj).to.eql(
+        {'pears': true, 'jalapenos': false}
+      );
+      done();
+    });
   });
 });

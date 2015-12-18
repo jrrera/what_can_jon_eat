@@ -4,17 +4,13 @@ var bodyParser = require('body-parser');
 
 var redisClient = require('../lib/redis');
 
+var foodModel = require('../models/food');
+
 
 router.route('/')
   .get(function(req, res) {
-    redisClient.hgetall('foods', function(error, foodObjects) {
+    foodModel.getAll(function(error, foodObjects) {
       if (error) throw error;
-      // Coerce string values to boolean.
-      for (var food in foodObjects) {
-        if (foodObjects.hasOwnProperty(food)) {
-          foodObjects[food] = (foodObjects[food] === "true");
-        }
-      }
       res.json(foodObjects);
     });
   })
