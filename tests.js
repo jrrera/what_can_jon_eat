@@ -122,7 +122,7 @@ describe('Food model', function () {
   });
 
   it('adds a food to the hash', function(done) {
-    foodModel.add('chicken', true, function(err, food){
+    foodModel.add('chicken', true, function(err, status){
       foodModel.getAll(function(err, foodsObj){
         expect(foodsObj).to.eql(
           {'pears': true, 'jalapenos': false, 'chicken': true}

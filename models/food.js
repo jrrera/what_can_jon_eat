@@ -1,5 +1,9 @@
 var redisClient = require('../lib/redis');
 
+/**
+ * Retrieves the entire hash of foods.
+ * @param {Function} cb
+ */
 exports.getAll = function(cb) {
   redisClient.hgetall('foods', function(err, foods) {
     if (err) throw err;
@@ -14,6 +18,13 @@ exports.getAll = function(cb) {
   });
 };
 
+
+/**
+ * Adds a new food to the hash.
+ * @param {string} food
+ * @param {boolean} canEat
+ * @param {Function} cb
+ */
 exports.add = function(food, canEat, cb) {
   redisClient.hset('foods', food, canEat, function(err, status) {
     if (err) throw err;
