@@ -21,14 +21,22 @@ if (process.env.REDISTOGO_URL) {
 
 router.route('/')
   .get(function(req, res) {
-    client.hkeys('foods', function(error, names) {
-      res.json(names);
-    })
+    client.hgetall('foods', function(error, foodObjects) {
+      if (error) throw error;
+      // Coerce string values to boolean.
+      for (food in foodObjects) {
+        if (foodObjects.hasOwnProperty(food)) {
+          foodObjects[food] = (foodObjects[food] === "true");
+        }
+      }
+      res.json(foodObjects);
+    });
   })
   .post(bodyParser.urlencoded({ extended: false  }), function(req, res) {
     var newFood = req.body;
     if (!newFood.name || !newFood.eat) {
       res.sendStatus(400);
+      return;
     }
     client.hset('foods', newFood.name, newFood.eat);
     res.status(201).json(newFood.name);
@@ -39,7 +47,7 @@ router.route('/:name')
     client.hdel('foods', req.params.name, function(error) {
       if (error) throw error;
       res.sendStatus(204);
-    })
+    });
   })
   .get(function(req, res) {
     client.hget('foods', req.params.name, function(error, description) {

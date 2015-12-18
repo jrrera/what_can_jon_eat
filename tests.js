@@ -1,11 +1,13 @@
 var request = require('supertest');
 var app = require('./app');
 
+// Set up Redis
 var redis = require('redis');
 var client = redis.createClient();
 client.select('test'.length);
-client.flushdb();
+client.flushdb(function() {console.log('done flushing'); });
 
+// Begin tests.
 describe('Requests to the root path', function() {
 
   it('Returns a 200 status code', function(done) {
@@ -30,6 +32,12 @@ describe('Requests to the root path', function() {
 });
 
 describe('Listing foods I can eat on /foods', function() {
+  before(function() {
+    client.flushdb();
+    client.hset('foods', 'pears', true);
+    client.hset('foods', 'jalapenos', false);
+  });
+
   it('returns 200 status code', function(done) {
     request(app)
       .get('/foods')
@@ -43,10 +51,10 @@ describe('Listing foods I can eat on /foods', function() {
   });
 
 
-  it('returns no foods on initial GET', function(done) {
+  it('returns pre-existing foods on initial GET', function(done) {
      request(app)
       .get('/foods')
-      .expect(JSON.stringify([]), done);
+      .expect(JSON.stringify({'pears': true, 'jalapenos': false}), done);
   });
 });
 
@@ -54,7 +62,7 @@ describe('Adding new foods', function() {
   it('returns a 201 status code', function(done) {
     request(app)
       .post('/foods')
-      .send('name=Pear&eat=true')
+      .send('name=pear&eat=true')
       .expect(201, done);
   });
 
