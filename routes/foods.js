@@ -9,8 +9,8 @@ var foodModel = require('../models/food');
 
 router.route('/')
   .get(function(req, res) {
-    foodModel.getAll().then(function(foodObjects) {
-      res.json(foodObjects);
+    foodModel.getAll().then(function(foodHash) {
+      res.json(foodHash);
     });
   })
   .post(bodyParser.urlencoded({ extended: false  }), function(req, res) {

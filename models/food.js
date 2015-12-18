@@ -2,10 +2,9 @@ var redisClient = require('../lib/redis');
 
 /**
  * Retrieves the entire hash of foods.
- * @param {Function} cb
  * @return {Promise}
  */
-exports.getAll = function(cb) {
+exports.getAll = function() {
   return redisClient.hgetallAsync('foods').then(function(foods) {
 
     // Coerce string values to boolean.
@@ -23,12 +22,18 @@ exports.getAll = function(cb) {
  * Adds a new food to the hash.
  * @param {string} food
  * @param {boolean} canEat
- * @param {Function} cb
+ * @return {Promise}
  */
-exports.add = function(food, canEat, cb) {
-  redisClient.hset('foods', food, canEat, function(err, status) {
-    if (err) throw err;
-    console.log('hset', status);
-    cb(null, status);
-  });
+exports.add = function(food, canEat) {
+  return redisClient.hsetAsync('foods', food, canEat);
+};
+
+
+/**
+ * Removes a new food to the hash.
+ * @param {string} food
+ * @return {Promise}
+ */
+exports.delete = function(food) {
+  return redisClient.hdelAsync('foods', food);
 };

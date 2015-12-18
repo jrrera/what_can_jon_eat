@@ -122,13 +122,24 @@ describe('Food model', function () {
   });
 
   it('adds a food to the hash', function(done) {
-    foodModel.add('chicken', true, function(err, status){
-      foodModel.getAll().then(function(foodsObj){
-        expect(foodsObj).to.eql(
-          {'pears': true, 'jalapenos': false, 'chicken': true}
-        );
-        done();
-      });
-    });
+    foodModel.add('chicken', true)
+        .then(foodModel.getAll)
+        .then(function(foodsObj){
+          expect(foodsObj).to.eql(
+              {'pears': true, 'jalapenos': false, 'chicken': true}
+          );
+          done();
+        });
+  });
+
+  it('removes a food from the hash', function(done) {
+    foodModel.delete('pears')
+        .then(foodModel.getAll)
+        .then(function(foodsObj){
+          expect(foodsObj).to.eql(
+              {'jalapenos': false, 'chicken': true}
+          );
+          done();
+        });
   });
 });
