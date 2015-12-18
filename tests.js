@@ -9,9 +9,7 @@ client.flushdb(function() {console.log('done flushing'); });
 
 // Begin tests.
 describe('Requests to the root path', function() {
-
   it('Returns a 200 status code', function(done) {
-
     request(app)
       .get('/')
       .expect(200, done);
@@ -47,7 +45,7 @@ describe('Listing foods I can eat on /foods', function() {
   it('returns JSON format', function(done) {
     request(app)
       .get('/foods')
-      .expect('Content-Type', /json/, done)
+      .expect('Content-Type', /json/, done);
   });
 
 
@@ -104,3 +102,10 @@ describe('Deleting foods', function() {
   });
 });
 
+
+describe('Foods model', function () {
+  it('returns a list of adds foods', function() {
+    var foods = new Foods();
+    assert.equal(foods.getAll(), {'pears': true, 'jalapenos': false});
+  });
+});

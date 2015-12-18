@@ -24,7 +24,7 @@ router.route('/')
     client.hgetall('foods', function(error, foodObjects) {
       if (error) throw error;
       // Coerce string values to boolean.
-      for (food in foodObjects) {
+      for (var food in foodObjects) {
         if (foodObjects.hasOwnProperty(food)) {
           foodObjects[food] = (foodObjects[food] === "true");
         }
