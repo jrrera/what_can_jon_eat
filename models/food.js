@@ -13,3 +13,11 @@ exports.getAll = function(cb) {
     cb(null, foods);
   });
 };
+
+exports.add = function(food, canEat, cb) {
+  redisClient.hset('foods', food, canEat, function(err, status) {
+    if (err) throw err;
+    console.log('hset', status);
+    cb(null, status);
+  });
+};

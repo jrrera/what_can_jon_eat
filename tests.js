@@ -105,19 +105,30 @@ describe('Deleting foods', function() {
 });
 
 
-describe('Foods model', function () {
+describe('Food model', function () {
 
   before(function() {
     client.hset('foods', 'pears', true);
     client.hset('foods', 'jalapenos', false);
   });
 
-  it('returns a list of foods', function(done) {
+  it('returns the full hash of foods', function(done) {
     foodModel.getAll(function(err, foodsObj){
       expect(foodsObj).to.eql(
         {'pears': true, 'jalapenos': false}
       );
       done();
+    });
+  });
+
+  it('adds a food to the hash', function(done) {
+    foodModel.add('chicken', true, function(err, food){
+      foodModel.getAll(function(err, foodsObj){
+        expect(foodsObj).to.eql(
+          {'pears': true, 'jalapenos': false, 'chicken': true}
+        );
+        done();
+      });
     });
   });
 });
