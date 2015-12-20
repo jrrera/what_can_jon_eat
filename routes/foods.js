@@ -4,17 +4,17 @@ var bodyParser = require('body-parser');
 
 var redisClient = require('../lib/redis');
 
-var foodModel = require('../models/food');
+var foodModel = require('../models/foods-sql');
 
 
 router.route('/')
   .get(function(req, res) {
-    foodModel.getAll().then(function(foodHash) {
-      if (!foodHash) {
+    foodModel.all().then(function(foods) {
+      if (!foods) {
         res.sendStatus(204);
         return;
       }
-      res.json(foodHash);
+      res.json(foods);
     });
   })
   .post(bodyParser.urlencoded({ extended: false  }), function(req, res) {
@@ -23,8 +23,14 @@ router.route('/')
       res.sendStatus(400);
       return;
     }
-    redisClient.hset('foods', newFood.name, newFood.eat);
-    res.status(201).json(newFood.name);
+    //redisClient.hset('foods', newFood.name, newFood.eat);
+    //res.status(201).json(newFood.name);
+    foodModel.create({
+      name: newFood.name,
+      canEat: newFood.eat
+    }).then(function(food) {
+      console.log('food created!', food);
+    })
     });
 
 router.route('/:name')

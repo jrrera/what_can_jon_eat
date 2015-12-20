@@ -4,6 +4,8 @@
 var express = require('express');
 var app = express();
 
+var sequelize = require('./lib/postgres');
+
 app.use(express.static('public'));
 
 var foodsRoute = require('./routes/foods');
