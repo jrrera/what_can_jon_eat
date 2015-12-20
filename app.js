@@ -6,8 +6,8 @@ var app = express();
 
 app.use(express.static('public'));
 
-var foods = require('./routes/foods');
-app.use('/foods', foods);
+var foodsRoute = require('./routes/foods');
+app.use('/foods', foodsRoute);
 
 app.get('/', function(req, res) {
   res.send('OK');

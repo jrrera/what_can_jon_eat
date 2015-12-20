@@ -10,6 +10,10 @@ var foodModel = require('../models/food');
 router.route('/')
   .get(function(req, res) {
     foodModel.getAll().then(function(foodHash) {
+      if (!foodHash) {
+        res.sendStatus(204);
+        return;
+      }
       res.json(foodHash);
     });
   })
