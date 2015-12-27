@@ -21,7 +21,7 @@ router.route('/')
   })
   .post(bodyParser.urlencoded({ extended: false  }), function(req, res) {
     var newFood = req.body;
-    
+
     if (!newFood.name || !newFood.eat) {
       res.sendStatus(400);
       return;
@@ -30,8 +30,6 @@ router.route('/')
     Food.create({
       name: newFood.name,
       canEat: newFood.eat
-    }).then(function(food) {
-      console.log('food created!', food);
     });
   });
 
@@ -49,7 +47,6 @@ router.route('/:name')
       where: { name: req.params.name },
       include: [{ model: Suggestion }]
     }).then(function(foods) {
-      console.log('food to get', foods);
       res.json(foods);
     });
   });
