@@ -9,7 +9,9 @@ var Suggestion = orm.Suggestion;
 
 router.route('/')
   .get(function(req, res) {
-    Food.all().then(function(foods) {
+    Food.findAll({
+      include: [{ model: Suggestion }]
+    }).then(function(foods) {
       if (!foods) {
         res.sendStatus(204);
         return;
@@ -19,12 +21,12 @@ router.route('/')
   })
   .post(bodyParser.urlencoded({ extended: false  }), function(req, res) {
     var newFood = req.body;
+    
     if (!newFood.name || !newFood.eat) {
       res.sendStatus(400);
       return;
     }
-    //redisClient.hset('foods', newFood.name, newFood.eat);
-    //res.status(201).json(newFood.name);
+
     Food.create({
       name: newFood.name,
       canEat: newFood.eat
@@ -35,14 +37,17 @@ router.route('/')
 
 router.route('/:name')
   .delete(function(req, res) {
-    Food.find().then(function(food) {
+    Food.find({
+      where: { name: req.params.name }
+    }).then(function(food) {
       food.destroy();
       res.sendStatus(204);
     });
   })
   .get(function(req, res) {
     Food.findAll({
-      where: { name: req.params.name }
+      where: { name: req.params.name },
+      include: [{ model: Suggestion }]
     }).then(function(foods) {
       console.log('food to get', foods);
       res.json(foods);
