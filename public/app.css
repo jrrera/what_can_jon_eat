@@ -1,15 +1,23 @@
 body {
   font-family: Lato, Helvetica, sans-serif;
 }
-.prompt-container {
+
+.flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.search-container {
+  height: 50%;
+}
+
+.full-stretch {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 25%;
+  bottom: 0;
 }
 
 .search-prompt {
