@@ -1,0 +1,17 @@
+body {
+  font-family: Lato, Helvetica, sans-serif;
+}
+.prompt-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 25%;
+}
+
+.search-prompt {
+  font-size: 36px;
+}
