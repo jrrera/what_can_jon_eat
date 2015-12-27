@@ -2,14 +2,14 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 
-var redisClient = require('../lib/redis');
-
-var foodModel = require('../models/foods-sql');
+var orm = require('../models/orm-sql');
+var Food = orm.Food;
+var Suggestion = orm.Suggestion;
 
 
 router.route('/')
   .get(function(req, res) {
-    foodModel.all().then(function(foods) {
+    Food.all().then(function(foods) {
       if (!foods) {
         res.sendStatus(204);
         return;
@@ -25,24 +25,27 @@ router.route('/')
     }
     //redisClient.hset('foods', newFood.name, newFood.eat);
     //res.status(201).json(newFood.name);
-    foodModel.create({
+    Food.create({
       name: newFood.name,
       canEat: newFood.eat
     }).then(function(food) {
       console.log('food created!', food);
-    })
     });
+  });
 
 router.route('/:name')
   .delete(function(req, res) {
-    redisClient.hdel('foods', req.params.name, function(error) {
-      if (error) throw error;
+    Food.find().then(function(food) {
+      food.destroy();
       res.sendStatus(204);
     });
   })
   .get(function(req, res) {
-    redisClient.hget('foods', req.params.name, function(error, description) {
-      res.json(description);
+    Food.findAll({
+      where: { name: req.params.name }
+    }).then(function(foods) {
+      console.log('food to get', foods);
+      res.json(foods);
     });
   });
 

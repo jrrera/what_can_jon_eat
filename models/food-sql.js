@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
-var sequelize = require('../lib/postgres');
+var sequelize = require('../lib/sequelize-instance');
 
-var Food = sequelize.define('food', {
+var Food = sequelize.define('Food', {
   name: {
     type: Sequelize.STRING,
   },
@@ -16,8 +16,8 @@ Food.sync({force: true}).then(function () {
   console.log('Food table synced.');
   // Table created
   return Food.create({
-    firstName: 'John',
-    lastName: 'Hancock'
+    name: 'pear',
+    canEat: false
   });
 });
 

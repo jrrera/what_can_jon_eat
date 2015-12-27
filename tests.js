@@ -1,13 +1,14 @@
 var expect = require('expect.js');
 var request = require('supertest');
-var app = require('./app');
-var foodModel = require('./models/food');
 
-// Set up Redis
-var redis = require('redis');
-var client = redis.createClient();
-client.select('test'.length);
-client.flushdb(function() {console.log('done flushing'); });
+var app = require('./app');
+
+// Set up Sequelize.
+var orm = require('./models/orm-sql');
+var Food = orm.Food;
+var Suggestion = orm.Suggestion;
+
+
 
 // Begin tests.
 describe('Requests to the root path', function() {
@@ -32,11 +33,11 @@ describe('Requests to the root path', function() {
 });
 
 describe('Listing foods I can eat on /foods', function() {
-  before(function() {
-    client.flushdb();
-    client.hset('foods', 'pears', true);
-    client.hset('foods', 'jalapenos', false);
-  });
+  // before(function() {
+  //   client.flushdb();
+  //   client.hset('foods', 'pears', true);
+  //   client.hset('foods', 'jalapenos', false);
+  // });
 
   it('returns 200 status code', function(done) {
     request(app)
