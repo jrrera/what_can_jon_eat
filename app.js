@@ -13,6 +13,4 @@ app.get('/', function(req, res) {
   res.send('OK');
 });
 
-app.listen(process.env.PORT || 3000);
-
 module.exports = app;
