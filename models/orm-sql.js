@@ -3,7 +3,6 @@ var Suggestion = require('./suggestion-sql');
 
 // Relationships
 Food.hasMany(Suggestion);
-// Suggestion.belongsTo(Food);
 
 Food.sync({force: true}).then(function () {
   Suggestion.sync({force: true}).then(function () {
