@@ -18,11 +18,23 @@ System.register(['angular2/core'], function(exports_1) {
         execute: function() {
             AppComponent = (function () {
                 function AppComponent() {
+                    var _this = this;
+                    this.currentDiet = 'AIP Paleo';
+                    this.selectedFood = {
+                        id: 0,
+                        name: 'bacon',
+                        canEat: true,
+                        Suggestions: []
+                    };
+                    $.get('/foods').then(function (response) {
+                        _this.foodsList = response;
+                        _this.selectedFood = response[1];
+                    });
                 }
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'app',
-                        template: "\n      <div class=\"container full-stretch\">\n        <div class=\"row\">\n          <div class=\"col-md-8 col-md-offset-4\">\n            <h1>What Can Jon Eat?</h1>\n            <p class=\"lead\">Jon is currently eating <strong>AIP Paleo</strong></p>\n          </div>\n        </div>\n\n        <div class=\"row flex-center search-container\">\n            <p class=\"search-prompt\">Can Jon eat <input type=\"text\"> ?</p>\n        </div>\n\n      </div>\n    "
+                        template: "\n      <div class=\"container full-stretch\">\n        <div class=\"row\">\n          <div class=\"col-md-8 col-md-offset-4\">\n            <h1>What Can Jon Eat?</h1>\n            <p class=\"lead\">Jon is currently eating <strong>{{ currentDiet }}</strong></p>\n          </div>\n        </div>\n\n        <div class=\"row flex-center search-container\">\n            <p class=\"search-prompt\">Can Jon eat\n              <input type=\"text\" [(ngModel)]=\"selectedFood.name\"> ?\n            </p>\n        </div>\n        <div> {{ selectedFood.canEat }} </div>\n      </div>\n    "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], AppComponent);
