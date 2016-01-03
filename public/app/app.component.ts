@@ -19,30 +19,54 @@ interface FoodItem {
             <p class="lead">Jon is currently eating <strong>{{ currentDiet }}</strong></p>
           </div>
         </div>
-
-        <div class="row flex-center search-container">
-            <p class="search-prompt">Can Jon eat
-              <input type="text" [(ngModel)]="selectedFood.name"> ?
-            </p>
+        <div *ngIf="selectedFood">
+          <div class="row flex-center search-container">
+              <p class="search-prompt">Can Jon eat
+                <input type="text" [(ngModel)]="selectedFood.name"> ?
+              </p>
+          </div>
+          <div> Can he eat it? {{ selectedFood.canEat }} </div>
+          <div *ngIf="selectedFood.Suggestions && selectedFood.Suggestions.length">
+            Suggestions:
+            <ul>
+              <li *ngFor="#suggestion of selectedFood.Suggestions">
+                {{ suggestion.name }}
+              </li>
+            </ul>
+          </div>
         </div>
-        <div> {{ selectedFood.canEat }} </div>
+        <ul class="foods-list">
+          <li *ngFor="#food of foodsList"
+              [class.selected]="food === selectedFood"
+              (click)="onSelect(food)">
+            {{ food.name }}: {{ food.canEat }}
+          </li>
+        </ul>
       </div>
-    `
+    `,
+    styles: [`
+      .foods-list {
+        background-color: #CFD8DC;
+        color: white;
+      }
+      .selected {
+        background-color: LightGray !important;
+      }
+  `]
 })
 export class AppComponent {
   public currentDiet = 'AIP Paleo';
   public foodsList: FoodItem[];
-  public selectedFood: FoodItem = {
-    id: 0,
-    name: 'bacon',
-    canEat: true,
-    Suggestions: []
-  };
+  public selectedFood: FoodItem;
 
   constructor() {
     $.get('/foods').then((response: FoodItem[]) => {
       this.foodsList = response;
-      this.selectedFood = response[1];
+      this.selectedFood = response[0];
     });
+  }
+
+  public onSelect(food: FoodItem) {
+    this.selectedFood = food;
   }
 }

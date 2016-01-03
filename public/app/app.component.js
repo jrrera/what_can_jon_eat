@@ -20,21 +20,19 @@ System.register(['angular2/core'], function(exports_1) {
                 function AppComponent() {
                     var _this = this;
                     this.currentDiet = 'AIP Paleo';
-                    this.selectedFood = {
-                        id: 0,
-                        name: 'bacon',
-                        canEat: true,
-                        Suggestions: []
-                    };
                     $.get('/foods').then(function (response) {
                         _this.foodsList = response;
-                        _this.selectedFood = response[1];
+                        _this.selectedFood = response[0];
                     });
                 }
+                AppComponent.prototype.onSelect = function (food) {
+                    this.selectedFood = food;
+                };
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'app',
-                        template: "\n      <div class=\"container full-stretch\">\n        <div class=\"row\">\n          <div class=\"col-md-8 col-md-offset-4\">\n            <h1>What Can Jon Eat?</h1>\n            <p class=\"lead\">Jon is currently eating <strong>{{ currentDiet }}</strong></p>\n          </div>\n        </div>\n\n        <div class=\"row flex-center search-container\">\n            <p class=\"search-prompt\">Can Jon eat\n              <input type=\"text\" [(ngModel)]=\"selectedFood.name\"> ?\n            </p>\n        </div>\n        <div> {{ selectedFood.canEat }} </div>\n      </div>\n    "
+                        template: "\n      <div class=\"container full-stretch\">\n        <div class=\"row\">\n          <div class=\"col-md-8 col-md-offset-4\">\n            <h1>What Can Jon Eat?</h1>\n            <p class=\"lead\">Jon is currently eating <strong>{{ currentDiet }}</strong></p>\n          </div>\n        </div>\n        <div *ngIf=\"selectedFood\">\n          <div class=\"row flex-center search-container\">\n              <p class=\"search-prompt\">Can Jon eat\n                <input type=\"text\" [(ngModel)]=\"selectedFood.name\"> ?\n              </p>\n          </div>\n          <div> Can he eat it? {{ selectedFood.canEat }} </div>\n          <div *ngIf=\"selectedFood.Suggestions && selectedFood.Suggestions.length\">\n            Suggestions:\n            <ul>\n              <li *ngFor=\"#suggestion of selectedFood.Suggestions\">\n                {{ suggestion.name }}\n              </li>\n            </ul>\n          </div>\n        </div>\n        <ul class=\"foods-list\">\n          <li *ngFor=\"#food of foodsList\"\n              [class.selected]=\"food === selectedFood\"\n              (click)=\"onSelect(food)\">\n            {{ food.name }}: {{ food.canEat }}\n          </li>\n        </ul>\n      </div>\n    ",
+                        styles: ["\n      .foods-list {\n        background-color: #CFD8DC;\n        color: white;\n      }\n      .selected {\n        background-color: LightGray !important;\n      }\n  "]
                     }), 
                     __metadata('design:paramtypes', [])
                 ], AppComponent);
