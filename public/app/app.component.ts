@@ -1,10 +1,14 @@
 import {Component} from 'angular2/core';
+import {OnInit} from 'angular2/core';
+
 import {FoodItem} from './food-item';
 import {FoodDetailComponent} from './food-detail.component';
+import {FoodService} from './food.service';
 
 @Component({
     selector: 'app',
     directives: [ FoodDetailComponent ],
+    providers: [ FoodService ],
     template: `
       <div class="container full-stretch">
         <div class="row">
@@ -42,19 +46,22 @@ import {FoodDetailComponent} from './food-detail.component';
       }
   `]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   public currentDiet = 'AIP Paleo';
   public foodsList: FoodItem[];
   public selectedFood: FoodItem;
 
-  constructor() {
-    $.get('/foods').then((response: FoodItem[]) => {
-      this.foodsList = response;
-      this.selectedFood = response[0];
-    });
+  constructor(private _foodService: FoodService) {}
+
+  ngOnInit() {
+    this.getFoods();
   }
 
   public onSelect(food: FoodItem) {
     this.selectedFood = food;
+  }
+
+  public getFoods() {
+    this._foodService.getFoods().then(foods => this.foodsList = foods);
   }
 }

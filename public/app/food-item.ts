@@ -2,7 +2,7 @@ export interface FoodItem {
   id: number;
   name: string;
   canEat: boolean;
-  Suggestions: string[];
+  Suggestions: { name: string, id: number }[];
   createdAt?: string;
   updatedAt?: string;
 }
