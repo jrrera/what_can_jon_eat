@@ -1,16 +1,10 @@
 import {Component} from 'angular2/core';
-
-interface FoodItem {
-  id: number;
-  name: string;
-  canEat: boolean;
-  Suggestions: string[];
-  createdAt?: string;
-  updatedAt?: string;
-}
+import {FoodItem} from './food-item';
+import {FoodDetailComponent} from './food-detail.component';
 
 @Component({
     selector: 'app',
+    directives: [ FoodDetailComponent ],
     template: `
       <div class="container full-stretch">
         <div class="row">
@@ -25,15 +19,9 @@ interface FoodItem {
                 <input type="text" [(ngModel)]="selectedFood.name"> ?
               </p>
           </div>
-          <div> Can he eat it? {{ selectedFood.canEat }} </div>
-          <div *ngIf="selectedFood.Suggestions && selectedFood.Suggestions.length">
-            Suggestions:
-            <ul>
-              <li *ngFor="#suggestion of selectedFood.Suggestions">
-                {{ suggestion.name }}
-              </li>
-            </ul>
-          </div>
+
+          <food-detail [food]="selectedFood"></food-detail>
+
         </div>
         <ul class="foods-list">
           <li *ngFor="#food of foodsList"
