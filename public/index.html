@@ -15,17 +15,17 @@
     <script src="scripts/angular2/bundles/angular2.dev.js"></script>
 
 
-    <!-- Configure SystemJS -->
+    <!-- Configure SystemJS for dev build -->
     <script>
       System.config({
         packages: {
-          app: {
+          temp: {
             format: 'register',
             defaultExtension: 'js'
           }
         }
       });
-      System.import('app/boot')
+      System.import('temp/boot')
             .then(null, console.error.bind(console));
     </script>
 
