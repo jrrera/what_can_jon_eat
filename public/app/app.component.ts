@@ -18,11 +18,11 @@ import {FoodService} from './food.service';
             <p class="lead">Jon is currently eating <strong>{{ currentDiet }}</strong></p>
           </div>
         </div>
-          <div class="row flex-center search-container" *ngIf="foodsList">
-            <food-search [foods]="foodsList" (update-food)="onUpdate($event)"></food-search>
-          </div>
+        <div class="row flex-center search-container" *ngIf="foodsList">
+          <food-search [foods]="foodsList" (updateFood)="onSelection($event)"></food-search>
+        </div>
 
-          <food-detail *ngIf="selectedFood" [food]="selectedFood"></food-detail>
+        <food-detail *ngIf="selectedFood" [food]="selectedFood"></food-detail>
 
         <ul class="foods-list">
           <li *ngFor="#food of foodsList"
@@ -62,7 +62,7 @@ export class AppComponent implements OnInit {
     this._foodService.getFoods().then(foods => this.foodsList = foods);
   }
 
-  public onUpdate(event) {
-    console.log(event);
+  public onSelection(newFood: string) {
+    this.selectedFood = this.foodsList.filter((food) => food.name === newFood)[0];
   }
 }

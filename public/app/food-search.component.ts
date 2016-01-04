@@ -19,7 +19,6 @@ export class FoodSearchComponent implements OnInit {
 
   @Output() updateFood: EventEmitter<string> = new EventEmitter();
 
-
   constructor() {}
 
   ngOnInit() {
@@ -34,7 +33,7 @@ export class FoodSearchComponent implements OnInit {
       name: 'foods',
       source: this._matchFactory(this.foodNameList)
     })
-    .on('typeahead:autocomplete', (e, food) => this.update(food));
+    .on('typeahead:select', (e, food) => this.update(food));
 
   }
 
@@ -47,7 +46,6 @@ export class FoodSearchComponent implements OnInit {
   }
 
   public update(searchedFood: string) {
-    console.log(searchedFood);
     this.updateFood.emit(searchedFood);
   }
 

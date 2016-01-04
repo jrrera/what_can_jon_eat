@@ -4,7 +4,7 @@ import {FoodItem} from './food-item';
 @Component({
   selector: 'food-detail',
   template: `
-  <div> Can he eat it? {{ food.canEat }} </div>
+  <h1> Edible? {{ food.canEat }} </h1>
   <div *ngIf="food.Suggestions && food.Suggestions.length">
     Suggestions:
     <ul>
