@@ -3,11 +3,12 @@ import {OnInit} from 'angular2/core';
 
 import {FoodItem} from './food-item';
 import {FoodDetailComponent} from './food-detail.component';
+import {FoodSearchComponent} from './food-search.component';
 import {FoodService} from './food.service';
 
 @Component({
     selector: 'app',
-    directives: [ FoodDetailComponent ],
+    directives: [ FoodDetailComponent, FoodSearchComponent ],
     providers: [ FoodService ],
     template: `
       <div class="container full-stretch">
@@ -17,16 +18,12 @@ import {FoodService} from './food.service';
             <p class="lead">Jon is currently eating <strong>{{ currentDiet }}</strong></p>
           </div>
         </div>
-        <div *ngIf="selectedFood">
-          <div class="row flex-center search-container">
-              <p class="search-prompt">Can Jon eat
-                <input type="text" [(ngModel)]="selectedFood.name"> ?
-              </p>
+          <div class="row flex-center search-container" *ngIf="foodsList">
+            <food-search [foods]="foodsList" (update-food)="onUpdate($event)"></food-search>
           </div>
 
-          <food-detail [food]="selectedFood"></food-detail>
+          <food-detail *ngIf="selectedFood" [food]="selectedFood"></food-detail>
 
-        </div>
         <ul class="foods-list">
           <li *ngFor="#food of foodsList"
               [class.selected]="food === selectedFood"
@@ -63,5 +60,9 @@ export class AppComponent implements OnInit {
 
   public getFoods() {
     this._foodService.getFoods().then(foods => this.foodsList = foods);
+  }
+
+  public onUpdate(event) {
+    console.log(event);
   }
 }
