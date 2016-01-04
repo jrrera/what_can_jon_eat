@@ -1,10 +1,11 @@
-import {Component, OnInit, EventEmitter, Output} from 'angular2/core';
+import {Component, OnInit, EventEmitter} from 'angular2/core';
 
 import {FoodItem} from './food-item';
 
 @Component({
     selector: 'food-search',
     inputs: ['foods'],
+    outputs: ['updateFood'],
     template: `
       <div class="search-prompt">Can Jon eat
         <input class="typeahead" type="text" placeholder="Enter a food"
@@ -17,7 +18,7 @@ export class FoodSearchComponent implements OnInit {
   public selectedFood: string;
   public foods: FoodItem[];
 
-  @Output() updateFood: EventEmitter<string> = new EventEmitter();
+  updateFood: EventEmitter<string> = new EventEmitter();
 
   constructor() {}
 

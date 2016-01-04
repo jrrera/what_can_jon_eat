@@ -23,14 +23,6 @@ import {FoodService} from './food.service';
         </div>
 
         <food-detail *ngIf="selectedFood" [food]="selectedFood"></food-detail>
-
-        <ul class="foods-list">
-          <li *ngFor="#food of foodsList"
-              [class.selected]="food === selectedFood"
-              (click)="onSelect(food)">
-            {{ food.name }}: {{ food.canEat }}
-          </li>
-        </ul>
       </div>
     `,
     styles: [`
