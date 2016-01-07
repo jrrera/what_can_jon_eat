@@ -14,6 +14,35 @@ Food.sync({force: true}).then(function () {
     });
 
     Food.create({
+      name: 'beef',
+      canEat: true
+    });
+
+    Food.create({
+      name: 'kale',
+      canEat: true
+    });
+
+    Food.create({
+      name: 'tomatoes',
+      canEat: false
+    });
+
+    Food.create({
+      name: 'almonds',
+      canEat: false
+    });
+
+    Food.create({
+      name: 'onions',
+      canEat: true
+    });
+    Food.create({
+      name: 'garlic',
+      canEat: true
+    });
+
+    Food.create({
       name: 'jalapeno',
       canEat: false
     })

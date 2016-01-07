@@ -1,11 +1,9 @@
-import {Component, OnInit, EventEmitter} from 'angular2/core';
+import {Component, OnInit, Input, Output, EventEmitter} from 'angular2/core';
 
 import {FoodItem} from './food-item';
 
 @Component({
     selector: 'food-search',
-    inputs: ['foods'],
-    outputs: ['updateFood'],
     template: `
       <div class="search-prompt">Can Jon eat
         <input class="typeahead" type="text" placeholder="Enter a food"
@@ -16,9 +14,10 @@ import {FoodItem} from './food-item';
 export class FoodSearchComponent implements OnInit {
   public foodNameList: string[];
   public selectedFood: string;
-  public foods: FoodItem[];
 
-  updateFood: EventEmitter<string> = new EventEmitter();
+  @Input() public foods: FoodItem[];
+
+  @Output() updateFood: EventEmitter<string> = new EventEmitter();
 
   constructor() {}
 
@@ -50,7 +49,7 @@ export class FoodSearchComponent implements OnInit {
     this.updateFood.emit(searchedFood);
   }
 
-  private _matchFactory(data) {
+  private _matchFactory(data: string[]) {
     return function findMatches(q, cb) {
       var matches, substrRegex;
 
