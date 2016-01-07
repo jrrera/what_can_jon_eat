@@ -16,10 +16,7 @@ export class FoodSearchComponent implements OnInit {
   public selectedFood: string;
 
   @Input() public foods: FoodItem[];
-
   @Output() updateFood: EventEmitter<string> = new EventEmitter();
-
-  constructor() {}
 
   ngOnInit() {
     this.getFoodNames();

@@ -10,7 +10,25 @@
     "noImplicitAny": false,
     "outDir": "public/temp"
   },
+  "filesGlob": [
+    "**/*.ts"
+  ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "files": [
+    "public/app/app.component.ts",
+    "public/app/boot.ts",
+    "public/app/food-detail.component.ts",
+    "public/app/food-item.ts",
+    "public/app/food-search.component.ts",
+    "public/app/food.service.ts",
+    "public/app/mock-foods.ts",
+    "typings/jquery/jquery.d.ts",
+    "typings/tsd.d.ts",
+    "typings/typeahead/typeahead.d.ts"
+  ],
+  "atom": {
+    "rewriteTsconfig": true
+  }
 }
