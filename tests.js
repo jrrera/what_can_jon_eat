@@ -8,8 +8,6 @@ var orm = require('./models/orm-sql');
 var Food = orm.Food;
 var Suggestion = orm.Suggestion;
 
-
-
 // Begin tests.
 describe('Requests to the root path', function() {
   it('Returns a 200 status code', function(done) {

@@ -11,10 +11,8 @@
     "outDir": "public/temp"
   },
   "filesGlob": [
-    "**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
+    "public/**/*.ts",
+    "typings/tsd.d.ts"
   ],
   "files": [
     "public/app/app.component.ts",
@@ -24,9 +22,7 @@
     "public/app/food-search.component.ts",
     "public/app/food.service.ts",
     "public/app/mock-foods.ts",
-    "typings/jquery/jquery.d.ts",
-    "typings/tsd.d.ts",
-    "typings/typeahead/typeahead.d.ts"
+    "typings/tsd.d.ts"
   ],
   "atom": {
     "rewriteTsconfig": true
